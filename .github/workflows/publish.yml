@@ -25,5 +25,5 @@ jobs:
 
     - name: Build the docker image
       run: |
-        docker build . --tag ghcr.io/OpenCentauri/cc-update-server:latest
-        docker push ghcr.io/OpenCentauri/cc-update-server:latest
+        docker build . --tag ghcr.io/opencentauri/cc-update-server:latest
+        docker push ghcr.io/opencentauri/cc-update-server:latest
