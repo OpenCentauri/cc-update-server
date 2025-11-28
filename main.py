@@ -19,12 +19,14 @@ def latest():
 
 @app.route("/mainboardVersionUpdate/getInfo.do7")
 def update():
-    version = request.args.get("version")
+    version : str = request.args.get("version")
+
+    
 
     if not version:
         return "Version parameter is required", 400
     
-    if version == latest_version.version:
+    if version == latest_version.version or version.strip().rstrip("-oc") == latest_version.version:
         return {
             "code": "000000",
             "messages": None,
