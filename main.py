@@ -1,4 +1,4 @@
-import swu_packer, gh_extract, tempfile, os, time
+import swu_packer, gh_extract, tempfile, os, time, hashlib
 from flask import Flask, redirect, url_for, request, render_template, send_from_directory
 
 temp_dir = tempfile.TemporaryDirectory()
@@ -11,6 +11,10 @@ print(f"Downloaded latest SWU version {latest_version.version} to {swu_path}")
 swu_packer.pack_swu(swu_path, bin_path)
 print(f"Packed SWU to BIN at {bin_path}")
 
+with open(bin_path, "rb") as f:
+    data = f.read()
+    md5_hash = hashlib.md5(data).hexdigest()
+
 app = Flask(__name__)
 
 @app.route("/latest")
@@ -20,8 +24,6 @@ def latest():
 @app.route("/mainboardVersionUpdate/getInfo.do7")
 def update():
     version : str = request.args.get("version")
-
-    
 
     if not version:
         return "Version parameter is required", 400
@@ -52,7 +54,7 @@ def update():
                 "version": latest_version.version,
                 "packageUrl": os.getenv("HOST", request.url_root.rstrip("/")) + url_for("latest"),
                 "firmwareType": 1,
-                "packageHash": "055d4c3c3ff97a9aa5d5e9ba0671739e",
+                "packageHash": md5_hash,
                 "updateStrategy": 1,
                 "log": latest_version.changelog,
                 "timeMS": int(time.time() * 1000),
