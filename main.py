@@ -50,7 +50,7 @@ def update():
             "data": {
                 "update": True,
                 "version": latest_version.version,
-                "packageUrl": request.url_root.rstrip("/") + url_for("latest"),
+                "packageUrl": os.getenv("HOST", request.url_root.rstrip("/")) + url_for("latest"),
                 "firmwareType": 1,
                 "packageHash": "055d4c3c3ff97a9aa5d5e9ba0671739e",
                 "updateStrategy": 1,
