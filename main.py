@@ -28,7 +28,7 @@ def update():
     if not version:
         return "Version parameter is required", 400
     
-    if version == latest_version.version or version.strip().rstrip("-oc") == latest_version.version:
+    if version == latest_version.version or version.strip().rstrip("-oc") == latest_version.version or len(version.strip()) >= 16:
         return {
             "code": "000000",
             "messages": None,
